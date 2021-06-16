@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme';
 
-import { findByTestAttr } from './test/testUtils';
+import { checkProps, findByTestAttr } from './test/testUtils';
 import Input from './Input';
 
-const setup = (props) => {
-    return shallow(<Input />)
+const setup = (secretWord = 'test') => {
+    return shallow(<Input secretWord={secretWord} />)
 }
 
 test('input renders without errors', () => {
@@ -13,3 +13,7 @@ test('input renders without errors', () => {
     
     expect(inputComponent.length).toBe(1);
 });
+
+test('does not throw warning with expected props', () => {
+    checkProps(Input, { secretWord: 'test' });
+})
