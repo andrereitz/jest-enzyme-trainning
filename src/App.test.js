@@ -43,5 +43,28 @@ test('counter starts at 0', () => {
 });
 
 test('clicking on button increments counter display', () => {
+    const wrapper = setup();
+    
+    // Find button
+    const button = findByTestAttr(wrapper, 'increment-button');
 
+    // Click button
+    button.simulate('click');
+
+    // Find display and test if has benn incremented
+    const count = findByTestAttr(wrapper, 'count').text();
+    expect(count).toBe("1")
 });
+
+test('clicking on button decrements counter display', () => {
+    const wrapper = setup();
+
+    const buttonIncrement = findByTestAttr(wrapper, 'increment-button');
+    buttonIncrement.simulate('click');
+
+    const buttonDecrement = findByTestAttr(wrapper, 'decrement-button');
+    buttonDecrement.simulate('click');
+
+    const count = findByTestAttr(wrapper, 'count').text();
+    expect(count).toBe("0")
+})
