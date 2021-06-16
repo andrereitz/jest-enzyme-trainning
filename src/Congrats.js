@@ -1,6 +1,7 @@
-import { Fragment } from "react"
+import { Fragment } from "react";
+import PropTypes from 'prop-types';
 
-export default function Congrats({ success }) {
+function Congrats({ success }) {
     return (
         <Fragment>
             { 
@@ -17,3 +18,9 @@ export default function Congrats({ success }) {
         </Fragment>
     )
 }
+
+Congrats.propTypes = {
+    success: PropTypes.bool.isRequired
+}
+
+export default Congrats;
