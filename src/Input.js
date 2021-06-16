@@ -4,6 +4,11 @@ import { useState } from 'react';
 function Input({ secretWord }){
     const [currentGuess, setCurrentGuess] = useState("");
 
+    function handleClick(e){
+        e.preventDefault();
+        setCurrentGuess("");
+    }
+
     return(
         <div data-test="component-input">
             <form className="form-inline">
@@ -18,6 +23,7 @@ function Input({ secretWord }){
                 <button 
                     data-test="submit-button"
                     className="btn btn-primary mb-2"
+                    onClick={(e) => handleClick(e)}
                 >
                     Submit
                 </button>
