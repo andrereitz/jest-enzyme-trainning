@@ -12,6 +12,9 @@ function Input({ secretWord }){
 
     function handleClick(e){
         e.preventDefault();
+
+        if(currentGuess === secretWord) setSuccess(true);
+        
         setCurrentGuess("");
     }
 

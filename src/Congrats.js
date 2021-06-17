@@ -1,6 +1,5 @@
 import React from 'react';
 import { Fragment } from "react";
-import PropTypes from 'prop-types';
 
 import languageContext from "./contexts/languageContext";
 import successContext from './contexts/successContext';

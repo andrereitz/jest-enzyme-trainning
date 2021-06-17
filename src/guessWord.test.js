@@ -10,7 +10,7 @@ import Congrats from './Congrats';
 import Input from './Input';
 import GuessedWords from './GuessedWords';
 
-const setup = ({ secretWord, guessedWord }) => {
+const setup = ({ secretWord, guessedWords }) => {
     const wrapper = mount(
         <guessedWordsContext.GuessedWordsProvider>
             <successContext.SuccessProvider>
@@ -27,7 +27,7 @@ const setup = ({ secretWord, guessedWord }) => {
     const submitButton = findByTestAttr(wrapper, 'submit-button');
     submitButton.simulate('click', { preventDefault(){} })
 
-    guessedWord.map( guess => {
+    guessedWords.map( guess => {
         const mockEvent = { target: { value: guess.guessedWord } };
         inputBox.simulate('change', mockEvent);
         submitButton.simulate('click', { preventDefault(){} });
@@ -57,7 +57,7 @@ describe.skip('some words guessed', () => {
         wrapper = setup({
             secretWord: 'golf',
             success: false,
-            guessedWords: [{ guessedWord: 'girl', letterMatchCount: 2 }]
+            guessedWords: [{ guessedWord: 'golf', letterMatchCount: 2 }]
         });
     });
     test('creates guesswords table with one row', () => {
@@ -66,7 +66,7 @@ describe.skip('some words guessed', () => {
     })
 });
 
-describe.skip('guess secret word', () => {
+describe('guess secret word', () => {
     let wrapper;
     beforeEach(() => {
         wrapper = setup({
@@ -82,7 +82,7 @@ describe.skip('guess secret word', () => {
         const submitButton = findByTestAttr(wrapper, 'submit-button');
         submitButton.simulate('click', { preventDefault(){} })
     });
-    test('adds row to guessedwords table', () => {
+    test.skip('adds row to guessedwords table', () => {
         const guessedWordNodes = findByTestAttr(wrapper, 'guessed-word');
         expect(guessedWordNodes).toHaveLength(3);
     });
