@@ -3,9 +3,11 @@ import { Fragment } from "react";
 import PropTypes from 'prop-types';
 
 import languageContext from "./contexts/languageContext";
+import successContext from './contexts/successContext';
 import stringsModule from './helpers/strings';
 
-function Congrats({ success }) {
+function Congrats() {
+    const [success] = successContext.useSuccess();
     const language = React.useContext(languageContext);
 
     return (
@@ -23,10 +25,6 @@ function Congrats({ success }) {
             }
         </Fragment>
     )
-}
-
-Congrats.propTypes = {
-    success: PropTypes.bool.isRequired
 }
 
 export default Congrats;
