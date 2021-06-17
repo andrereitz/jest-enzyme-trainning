@@ -8,7 +8,7 @@ import guessedWordsContext from './contexts/guessedWordsContext';
 const setup = (guessedWords=[]) => {
     const mockuseGuessedWords = jest.fn().mockReturnValue([guessedWords, jest.fn()])
     guessedWordsContext.useGuessedWords = mockuseGuessedWords;
-    
+
     return shallow(<GuessedWords />)
 };
 

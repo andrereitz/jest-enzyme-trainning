@@ -36,7 +36,7 @@ const setup = ({ secretWord, guessedWords }) => {
     return wrapper;
 }
 
-describe.skip('no words guessed', () => {
+describe('no words guessed', () => {
     let wrapper;
     beforeEach(() => {
         wrapper = setup({
@@ -51,7 +51,7 @@ describe.skip('no words guessed', () => {
     })
 });
 
-describe.skip('some words guessed', () => {
+describe('some words guessed', () => {
     let wrapper;
     beforeEach(() => {
         wrapper = setup({
@@ -82,7 +82,7 @@ describe('guess secret word', () => {
         const submitButton = findByTestAttr(wrapper, 'submit-button');
         submitButton.simulate('click', { preventDefault(){} })
     });
-    test.skip('adds row to guessedwords table', () => {
+    test('adds row to guessedwords table', () => {
         const guessedWordNodes = findByTestAttr(wrapper, 'guessed-word');
         expect(guessedWordNodes).toHaveLength(3);
     });

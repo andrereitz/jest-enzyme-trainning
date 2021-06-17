@@ -5,6 +5,7 @@ import Input from './Input';
 import React from 'react';
 import languageContext from './contexts/languageContext';
 import successContext from './contexts/successContext';
+import guessedWordsContext from './contexts/guessedWordsContext';
 
 const mockSetCurrentGuess = jest.fn();
 
@@ -19,11 +20,13 @@ const setup = ({ language, secretWord, success }) => {
     success = success || false;
     
     return mount(
-        <languageContext.Provider value={language}>
-            <successContext.SuccessProvider value={[success, jest.fn()]}>
-                <Input secretWord={secretWord} />
-            </successContext.SuccessProvider>
-        </languageContext.Provider>
+        <guessedWordsContext.GuessedWordsProvider>
+            <languageContext.Provider value={language}>
+                <successContext.SuccessProvider value={[success, jest.fn()]}>
+                    <Input secretWord={secretWord} />
+                </successContext.SuccessProvider>
+            </languageContext.Provider>
+        </guessedWordsContext.GuessedWordsProvider>
     )
 }
 
