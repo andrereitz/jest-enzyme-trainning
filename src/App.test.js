@@ -18,16 +18,16 @@ test('renders learn react link', () => {
 
 describe('get secret word', () => {
   beforeEach(() => {
-    mockGetSecretWord.mockClear();
+    //mockGetSecretWord.mockClear();
   })
-  test('getSecretWord on app mout', () => {
+  test('getSecretWord on app mount', () => {
     const wrapper = setup();
 
     expect(mockGetSecretWord).toHaveBeenCalledTimes(1);
   });
   test('getSecretWord does not run on app update', () => {
     const wrapper = setup();
-    mockGetSecretWord.mockClear();
+    //mockGetSecretWord.mockClear();
 
     wrapper.setProps();
 
