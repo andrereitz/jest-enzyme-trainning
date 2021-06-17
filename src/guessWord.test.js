@@ -3,14 +3,35 @@ import { mount } from 'enzyme';
 import App from './App';
 import { findByTestAttr } from './test/testUtils';
 
-const setup = (state = {}) => {
-    const wrapper = mount(<App />);
+import successContext from './contexts/successContext';
+import guessedWordsContext from './contexts/guessedWordsContext';
+
+import Congrats from './Congrats';
+import Input from './Input';
+import GuessedWords from './GuessedWords';
+
+const setup = ({ secretWord, guessedWord }) => {
+    const wrapper = mount(
+        <guessedWordsContext.GuessedWordsProvider>
+            <successContext.SuccessProvider>
+                <Congrats  />
+                <Input secretWord={secretWord} />
+                <GuessedWords />
+            </successContext.SuccessProvider>
+        </guessedWordsContext.GuessedWordsProvider>
+    );
 
     const inputBox = findByTestAttr(wrapper, 'input-box');
     inputBox.simulate('change', { target: { value: 'woof' } });
 
     const submitButton = findByTestAttr(wrapper, 'submit-button');
     submitButton.simulate('click', { preventDefault(){} })
+
+    guessedWord.map( guess => {
+        const mockEvent = { target: { value: guess.guessedWord } };
+        inputBox.simulate('change', mockEvent);
+        submitButton.simulate('click', { preventDefault(){} });
+    })
 
     return wrapper;
 }

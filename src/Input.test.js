@@ -4,7 +4,7 @@ import { checkProps, findByTestAttr } from './test/testUtils';
 import Input from './Input';
 import React from 'react';
 import languageContext from './contexts/languageContext';
-import { series } from 'async';
+import successContext from './contexts/successContext';
 
 const mockSetCurrentGuess = jest.fn();
 
@@ -20,7 +20,9 @@ const setup = ({ language, secretWord, success }) => {
     
     return mount(
         <languageContext.Provider value={language}>
-            <Input success={success} secretWord={secretWord} />
+            <successContext.SuccessProvider value={[success, jest.fn()]}>
+                <Input secretWord={secretWord} />
+            </successContext.SuccessProvider>
         </languageContext.Provider>
     )
 }

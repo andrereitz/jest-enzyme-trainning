@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 
 import languageContext from './contexts/languageContext';
+import successContext from './contexts/successContext';
 import stringsModule from './helpers/strings';
 
-function Input({ success, secretWord }){
+function Input({ secretWord }){
+    const [success, setSuccess] = successContext.useSuccess();
     const language = useContext(languageContext);
     const [currentGuess, setCurrentGuess] = useState("");
 
