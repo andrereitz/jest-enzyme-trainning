@@ -1,4 +1,4 @@
-import { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 import Congrats from './Congrats';
@@ -18,9 +18,9 @@ const reducer = (state, action) => {
 function App() {
   // const [secretWord, setSecretWord] = useState('');
 
-  const [state, dispatch] = useReducer(
+  const [state, dispatch] = React.useReducer(
     reducer,
-    { secretWord: '' }
+    { secretWord: null }
   )
 
   const success = false;
@@ -33,6 +33,17 @@ function App() {
   useEffect(() => {
     getSecretWord(setSecretWord);
   }, [])
+
+  if(state.secretWord === null) {
+    return(
+      <div className="container" data-test="spinner">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <p>Loading secret word...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="container" data-test="component-app">

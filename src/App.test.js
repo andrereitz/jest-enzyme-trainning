@@ -1,3 +1,4 @@
+import React from 'react';
 import { mount } from 'enzyme';
 import { findByTestAttr } from './test/testUtils';
 import App from './App';
@@ -10,15 +11,42 @@ const setup = () => {
   return mount(<App />);
 }
 
-test('renders learn react link', () => {
-  const wrapper = setup();
-  const appComponent = findByTestAttr(wrapper, 'component-app')
-  expect(appComponent).toHaveLength(1);
-});
+describe.each([
+  [null, true, false],
+  ['clown', false, true]
+])(
+  'renders with %s', (secretWord, loadingShows, appShows) => {
+    let wrapper;
+    let originalUseReducer;
+
+    beforeEach(() => {
+        originalUseReducer = React.useReducer;
+
+        const mockUseReducer = jest.fn()
+          .mockReturnValue([
+            { secretWord },
+            jest.fn(),
+          ])
+        React.useReducer = mockUseReducer;
+        wrapper = setup();
+      });
+      afterEach(() => {
+        React.useReducer = originalUseReducer;
+      });
+      test(`renders loading spinner: ${loadingShows}`, () => {
+        const spinnerComponent = findByTestAttr(wrapper, 'spinner')
+        expect(spinnerComponent.exists()).toBe(loadingShows);
+      });
+      test(`renders app: ${appShows}`, () => {
+        const appComponent = findByTestAttr(wrapper, 'component-app')
+        expect(appComponent.exists()).toBe(appShows);
+      });
+  }
+)
 
 describe('get secret word', () => {
   beforeEach(() => {
-    //mockGetSecretWord.mockClear();
+    mockGetSecretWord.mockClear();
   })
   test('getSecretWord on app mount', () => {
     const wrapper = setup();
@@ -27,7 +55,7 @@ describe('get secret word', () => {
   });
   test('getSecretWord does not run on app update', () => {
     const wrapper = setup();
-    //mockGetSecretWord.mockClear();
+    mockGetSecretWord.mockClear();
 
     wrapper.setProps();
 
