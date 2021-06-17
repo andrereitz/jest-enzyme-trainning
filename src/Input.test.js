@@ -1,8 +1,10 @@
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 
 import { checkProps, findByTestAttr } from './test/testUtils';
 import Input from './Input';
 import React from 'react';
+import languageContext from './contexts/languageContext';
+import { series } from 'async';
 
 const mockSetCurrentGuess = jest.fn();
 
@@ -11,15 +13,23 @@ jest.mock('react', () => ({
     useState: (initialState) => [initialState, mockSetCurrentGuess]
 }))
 
-const setup = (success = false, secretWord = 'test') => {
-    return shallow(<Input success={success} secretWord={secretWord} />)
+const setup = ({ language, secretWord, success }) => {
+    language = language || 'en';
+    secretWord = secretWord || 'clown';
+    success = success || false;
+    
+    return mount(
+        <languageContext.Provider value={language}>
+            <Input success={success} secretWord={secretWord} />
+        </languageContext.Provider>
+    )
 }
 
 describe('reder', () => {
     describe('success is true', () => {
         let wrapper;
         beforeEach(() => {
-            wrapper = setup(true);
+            wrapper = setup({ success: true });
         })
         test('input renders without errors', () => {
             const inputComponent = findByTestAttr(wrapper, 'component-input')
@@ -38,7 +48,7 @@ describe('reder', () => {
     describe('success is false', () => {
         let wrapper;
         beforeEach(() => {
-            wrapper = setup(false);
+            wrapper = setup({ success: false });
         })
         test('input renders without errors', () => {
             const inputComponent = findByTestAttr(wrapper, 'component-input')
@@ -64,7 +74,7 @@ describe('state controlled input field', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = setup();
+        wrapper = setup({});
     })
     test('state updates with value of input box upon change', () => {
         const inputBox = findByTestAttr(wrapper, 'input-box');
@@ -80,4 +90,17 @@ describe('state controlled input field', () => {
         submitButton.simulate('click', { preventDefault() {} });
         expect(mockSetCurrentGuess).toHaveBeenLastCalledWith("");
     })
+})
+
+describe('languagePicker', () => {
+    test('correctly renders submit string in english', () => {
+        const wrapper = setup({ language: 'en' });
+        const submitButton = findByTestAttr(wrapper, 'submit-button');
+        expect(submitButton.text()).toBe('Submit');
+    });
+    test('correctly renders submit string in emoji', () => {
+        const wrapper = setup({ language: 'emoji' });
+        const submitButton = findByTestAttr(wrapper, 'submit-button');
+        expect(submitButton.text()).toBe('🚀');
+    });
 })
