@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-function Input({ success, secretWord }){
+function Input({ secretWord }){
     const [currentGuess, setCurrentGuess] = useState("");
+    const success = useSelector(state => state.success)
 
     function handleClick(e){
         e.preventDefault();
@@ -34,10 +36,6 @@ function Input({ success, secretWord }){
             </form>
         </div>
     )
-}
-
-Input.propTypes = {
-    secretWord: PropTypes.string.isRequired,
 }
 
 export default Input;

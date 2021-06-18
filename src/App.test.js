@@ -1,13 +1,20 @@
 import { mount } from 'enzyme';
-import { findByTestAttr } from './test/testUtils';
+import { findByTestAttr, storeFactory } from './test/testUtils';
 import App from './App';
+import { Provider } from 'react-redux';
 
 // activate global mock
 jest.mock('./actions');
 import { getSecretWord as mockGetSecretWord } from './actions';
 
-const setup = () => {
-  return mount(<App />);
+const setup = (initialState = {}) => {
+  const store = storeFactory(initialState)
+
+  return mount(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
 }
 
 test('renders learn react link', () => {

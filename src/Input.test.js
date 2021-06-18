@@ -1,8 +1,9 @@
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 
-import { checkProps, findByTestAttr } from './test/testUtils';
+import { checkProps, findByTestAttr, storeFactory } from './test/testUtils';
 import Input from './Input';
 import React from 'react';
+import { Provider } from 'react-redux';
 
 const mockSetCurrentGuess = jest.fn();
 
@@ -11,15 +12,21 @@ jest.mock('react', () => ({
     useState: (initialState) => [initialState, mockSetCurrentGuess]
 }))
 
-const setup = (success = false, secretWord = 'test') => {
-    return shallow(<Input success={success} secretWord={secretWord} />)
+const setup = (initialState={}, secretWord = 'test') => {
+    const store = storeFactory(initialState);
+
+    return mount(
+        <Provider store={store}>
+            <Input secretWord={secretWord} />
+        </Provider>
+    )
 }
 
-describe('reder', () => {
+describe('render', () => {
     describe('success is true', () => {
         let wrapper;
         beforeEach(() => {
-            wrapper = setup(true);
+            wrapper = setup({success: true});
         })
         test('input renders without errors', () => {
             const inputComponent = findByTestAttr(wrapper, 'component-input')
@@ -38,7 +45,7 @@ describe('reder', () => {
     describe('success is false', () => {
         let wrapper;
         beforeEach(() => {
-            wrapper = setup(false);
+            wrapper = setup({success: false});
         })
         test('input renders without errors', () => {
             const inputComponent = findByTestAttr(wrapper, 'component-input')
@@ -64,7 +71,7 @@ describe('state controlled input field', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = setup();
+        wrapper = setup({success: false});
     })
     test('state updates with value of input box upon change', () => {
         const inputBox = findByTestAttr(wrapper, 'input-box');
