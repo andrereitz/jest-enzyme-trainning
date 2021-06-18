@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 
 import Congrats from './Congrats';
@@ -10,11 +10,12 @@ import { getSecretWord } from './actions';
 function App() {
   const success = useSelector(state => state.success);
   const guessedWords = useSelector(state => state.guessedWords);
+  const secretWord = useSelector(state => state.secretWord);
 
-  const secretWord = 'golf';
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getSecretWord();
+    dispatch(getSecretWord());
   }, [])
 
   return (
