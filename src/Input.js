@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { guessWord } from './actions';
 
 function Input({ secretWord }){
     const [currentGuess, setCurrentGuess] = useState("");
-    const success = useSelector(state => state.success)
+    const success = useSelector(state => state.success);
+    const dispatch = useDispatch();
 
     function handleClick(e){
         e.preventDefault();
+        dispatch(guessWord(currentGuess));
         setCurrentGuess("");
     }
 
